@@ -1,161 +1,92 @@
-
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="RDO Power Studio - pembantu AI percuma untuk creator TikTok Shop Malaysia.">
-  <title>RDO Power Studio | AI Creator Malaysia</title>
-  <style>
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: #090909;
-      color: #f8f3e8;
-      font-family: Arial, sans-serif;
-      line-height: 1.65;
-    }
-    header {
-      padding: 20px 6%;
-      border-bottom: 1px solid #5c471c;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-    .brand { color: #f5c65a; font-weight: 900; font-size: 22px; }
-    nav a { color: #ddd; margin-right: 15px; text-decoration: none; }
-    nav a:hover { color: #f5c65a; }
-    .hero {
-      padding: 95px 20px 85px;
-      text-align: center;
-      background: radial-gradient(ellipse at top, #46300d, #090909 68%);
-    }
-    .seal {
-      display: inline-flex;
-      width: 115px;
-      height: 115px;
-      align-items: center;
-      justify-content: center;
-      border: 3px solid #e5b64f;
-      border-radius: 50%;
-      font-size: 37px;
-      font-weight: 900;
-      color: #ffd978;
-      box-shadow: 0 0 35px #ae7a2770;
-    }
-    h1 {
-      font-size: clamp(38px, 7vw, 68px);
-      line-height: 1.12;
-      color: #ffd675;
-      margin: 25px auto 12px;
-    }
-    h2 { color: #f5c65a; font-size: 31px; }
-    .sub { font-size: 20px; max-width: 650px; margin: 0 auto 26px; }
-    .btn {
-      display: inline-block;
-      border-radius: 35px;
-      padding: 14px 27px;
-      text-decoration: none;
-      background: linear-gradient(120deg, #b37a20, #ffdf85);
-      color: #171000;
-      font-weight: bold;
-      margin-top: 14px;
-    }
-    .small { color: #bbb; font-size: 14px; }
-    section { padding: 55px 7%; max-width: 1120px; margin: auto; }
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-    }
-    .card {
-      background: #181818;
-      border: 1px solid #76551f;
-      border-radius: 17px;
-      padding: 23px;
-    }
-    .card h3 { color: #ffd675; margin-top: 0; }
-    .number { color: #e6b352; font-size: 25px; font-weight: bold; }
-    a { color: #ffdc89; }
-    footer {
-      text-align: center;
-      border-top: 1px solid #55411a;
-      padding: 30px 15px;
-      color: #aaa;
-    }
-  </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="RDO Power Studio — bina prompt TikTok Shop Malaysia untuk video, storyboard, poster, thumbnail dan caption.">
+<title>RDO Power Studio | AI Creator Malaysia</title>
+<style>
+:root{color-scheme:dark;--bg:#090909;--gold:#f4c766;--line:#675022;--muted:#bdb6a5}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f7f2e7;font:16px/1.6 system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+header{border-bottom:1px solid #4a381d;padding:18px max(20px,5vw);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-weight:900;letter-spacing:1px;color:var(--gold)}a{color:var(--gold)}nav a{margin-left:18px;text-decoration:none;font-size:14px;color:#e9dcc0}
+.hero{padding:66px 20px 52px;text-align:center;background:radial-gradient(ellipse at top,#493312 0,#0a0a0a 69%)}
+.mark{margin:auto;width:96px;height:96px;border:3px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font-size:31px;font-weight:900;box-shadow:0 0 30px #c18b3d55}
+h1{font-size:clamp(35px,7vw,62px);line-height:1.1;color:#ffdb86;margin:22px auto 10px}h2{color:var(--gold);line-height:1.2}p{margin:10px 0}
+.shell{max-width:1100px;margin:auto;padding:36px 20px 65px}
+.small,.hint{color:var(--muted);font-size:14px}
+.tabs{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:10px;margin:22px 0}
+.tab{background:#191714;color:#f5e5bf;border:1px solid #594522;padding:15px 12px;border-radius:14px;text-align:left;cursor:pointer;font-size:15px;font-weight:750;min-height:74px}
+.tab:hover,.tab[aria-pressed=true]{border-color:var(--gold);background:#312617;box-shadow:0 0 0 1px #b78b3f}
+.panel{background:#171613;border:1px solid #594522;border-radius:20px;padding:clamp(18px,4vw,30px)}
+label{display:block;font-weight:650;font-size:14px;margin:16px 0 7px}
+input,textarea,select{width:100%;border-radius:10px;padding:12px 13px;font:inherit;color:#fff;background:#0c0c0c;border:1px solid #655536}
+textarea{min-height:95px;resize:vertical}textarea#result{min-height:310px;white-space:pre-wrap}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0 10px}
+button.action{border:0;background:linear-gradient(110deg,#bd8b33,#f8db8a);border-radius:30px;color:#1c1305;font-weight:800;padding:13px 20px;cursor:pointer;font-size:15px}
+button.secondary{background:#312819;border:1px solid #b28d46;color:#f8db8a}
+.note{border-left:3px solid var(--gold);padding:10px 15px;background:#241e15;border-radius:5px;font-size:14px}
+footer{text-align:center;border-top:1px solid #493719;padding:26px 16px;color:#b5ad9d}
+@media(max-width:520px){header nav a{margin:0 14px 0 0}.hero{padding-top:42px}.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.tab{font-size:13px}}
+</style>
 </head>
 <body>
-  <header>
-    <div class="brand">RDO POWER STUDIO</div>
-    <nav>
-      <a href="#fungsi">Fungsi</a>
-      <a href="#tentang">Tentang</a>
-      <a href="#sokongan">Sokongan</a>
-    </nav>
-  </header>
-
-  <div class="hero">
-    <div class="seal">RDO</div>
-    <h1>RDO POWER STUDIO</h1>
-    <p class="sub">AI TikTok Shop Content Creator Malaysia</p>
-    <p>Idea kreatif, prompt video, storyboard, poster dan caption dalam satu pembantu AI.</p>
-    <a class="btn" href="https://chatgpt.com/plugins/plugins_6ae33c48df648191afc567337bdf8ff3">
-      Lihat Plugin RDO
-    </a>
-    <p class="small">Plugin percuma. Akses umum belum diterbitkan dan tertakluk pada kelulusan.</p>
-  </div>
-
-  <section id="fungsi">
-    <h2>5 Fungsi Utama</h2>
-    <div class="cards">
-      <div class="card">
-        <div class="number">01</div>
-        <h3>Description Produk</h3>
-        <p>Penerangan produk dan konsep poster berdasarkan gambar rujukan.</p>
-      </div>
-      <div class="card">
-        <div class="number">02</div>
-        <h3>Prompt Video 10 Saat</h3>
-        <p>Prompt 5 scene untuk NEXABOT dan Google Flow dengan hook serta CTA.</p>
-      </div>
-      <div class="card">
-        <div class="number">03</div>
-        <h3>Storyboard</h3>
-        <p>Perancangan visual 5 scene untuk video TikTok Shop.</p>
-      </div>
-      <div class="card">
-        <div class="number">04</div>
-        <h3>Thumbnail 3:4</h3>
-        <p>Konsep cover TikTok dengan hook yang menarik dan tulisan jelas.</p>
-      </div>
-      <div class="card">
-        <div class="number">05</div>
-        <h3>Caption & Hashtag</h3>
-        <p>Ayat posting Bahasa Melayu Malaysia dengan CTA yang natural.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="tentang">
-    <h2>Dibina Untuk Creator Malaysia</h2>
-    <p>RDO Power Studio membantu pengguna merancang kandungan TikTok Shop melalui AI. Fokus utama ialah Product Lock, saiz produk mengikut rujukan, dialog Bahasa Melayu Malaysia serta kandungan yang mudah digunakan.</p>
-    <p>Perkhidmatan Plugin ini dirancang untuk ditawarkan secara percuma. Penggunaan perkhidmatan pihak ketiga mungkin mempunyai syarat atau had tersendiri.</p>
-  </section>
-
-  <section id="sokongan">
-    <h2>Sokongan Pengguna</h2>
-    <p>Untuk pertanyaan berkaitan RDO Power Studio, hubungi:</p>
-    <p><a href="mailto:amiralias2015@gmail.com">amiralias2015@gmail.com</a></p>
-    <p>Privacy Policy dan Terms of Service akan ditambah selepas kandungannya disemak dan disahkan.</p>
-  </section>
-
-  <footer>
-    © 2026 RDO Power Studio<br>
-    AI Content Creator Malaysia
-  </footer>
-</body>
-</html>
+<header><div class="brand">✦ RDO POWER STUDIO</div><nav><a href="#studio">Studio Prompt</a><a href="#info">Info</a><a href="#support">Sokongan</a></nav></header>
+<div class="hero"><div class="mark">RDO</div><h1>RDO POWER STUDIO</h1><p>AI TikTok Shop Content Creator Malaysia</p><p class="small">5 fungsi kreatif • Product Lock • Bahasa Melayu Malaysia</p></div>
+<main class="shell" id="studio">
+<h2>Studio Prompt RDO</h2><p class="hint">Pilih fungsi, isi butiran produk dan jana prompt yang boleh disalin ke ChatGPT, NEXABOT atau Google Flow.</p>
+<div class="tabs" id="tabs">
+<button class="tab" data-mode="poster" aria-pressed="true">01 ✦ Description Produk</button>
+<button class="tab" data-mode="video" aria-pressed="false">02 ▶ Video 10 Saat</button>
+<button class="tab" data-mode="storyboard" aria-pressed="false">03 ▦ Storyboard 5 Scene</button>
+<button class="tab" data-mode="thumbnail" aria-pressed="false">04 ◈ Thumbnail 3:4</button>
+<button class="tab" data-mode="caption" aria-pressed="false">05 ✎ Ayat Posting</button>
+</div>
+<div class="panel">
+<h2 id="modeTitle">Description Produk + Poster</h2>
+<div class="grid">
+<div><label for="product">Nama produk</label><input id="product" placeholder="Contoh: Gelang Papan Lebar Love"></div>
+<div><label for="audience">Sasaran pengguna</label><input id="audience" placeholder="Contoh: Wanita yang suka aksesori"></div>
+</div>
+<label for="details">Ciri produk yang disahkan / penerangan gambar rujukan</label><textarea id="details" placeholder="Contoh: Gelang emas bermotif Love, saiz kecil mengikut pergelangan tangan dalam gambar rujukan."></textarea>
+<div class="grid">
+<div><label for="tone">Gaya</label><select id="tone"><option>UGC Natural</option><option>Demo Penggunaan</option><option>Cinematic Premium</option><option>Model Bercakap</option><option>Hand POV</option><option>Problem → Solution</option></select></div>
+<div><label for="cta">CTA pilihan (jika mahu)</label><input id="cta" placeholder="Contoh: Berkenan? Jom tengok dulu!"></div>
+</div>
+<div class="actions"><button class="action" id="generate">Jana Prompt</button><button class="action secondary" id="copy">Salin Prompt</button></div>
+<label for="result">Prompt siap digunakan</label><textarea id="result" readonly placeholder="Tekan Jana Prompt untuk melihat hasil..."></textarea><p class="small" id="feedback" role="status"></p>
+<div class="note">Laman ini menyusun prompt, bukan menjana video atau imej AI secara langsung. Untuk mengekalkan reka bentuk dan saiz produk, lampirkan gambar rujukan asal semasa menggunakan prompt dalam alat AI pilihan.</div>
+</div>
+<section id="info"><h2>Direka Untuk Creator Malaysia</h2><p>RDO Power Studio membantu merancang kandungan TikTok Shop dengan lima aliran kerja: poster, video, storyboard, thumbnail dan caption. Elakkan spesifikasi, harga, diskaun dan dakwaan yang tidak disahkan.</p></section>
+<section id="support"><h2>Hubungi Kami</h2><p>Pertanyaan: <a href="mailto:amiralias2015@gmail.com">amiralias2015@gmail.com</a></p><p class="small">Rujukan: <a href="privacy.html">Dasar Privasi</a> · <a href="terms.html">Terma Penggunaan</a> · <a href="support.html">Sokongan</a>. Halaman dasar/terma perlu disemak sebelum digunakan bagi penerbitan rasmi.</p></section>
+</main><footer>© 2026 RDO Power Studio · Malaysia</footer>
+<script>
+(function(){
+const names={poster:"Description Produk + Poster",video:"Prompt Video 10 Saat",storyboard:"Storyboard 5 Scene",thumbnail:"Thumbnail TikTok 3:4",caption:"Ayat Posting + Hashtag"};
+let mode="poster";
+const el=id=>document.getElementById(id);
+document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{
+ mode=btn.dataset.mode;document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-pressed",String(t===btn)));el("modeTitle").textContent=names[mode];el("result").value="";el("feedback").textContent="";
+}));
+el("generate").addEventListener("click",()=>{
+ const product=el("product").value.trim();if(!product){el("feedback").textContent="Sila isi nama produk dahulu.";el("product").focus();return;}
+ const audience=el("audience").value.trim()||"mengikut produk";
+ const details=el("details").value.trim()||"Hanya gunakan ciri yang dapat disahkan melalui gambar rujukan pengguna.";
+ const tone=el("tone").value;const cta=el("cta").value.trim()||"Gunakan CTA soft selling yang sesuai dengan produk.";
+ const common="Produk: "+product+"\nSasaran: "+audience+"\nCiri disahkan: "+details+"\nGaya: "+tone+"\nCTA: "+cta+"\n\nSYARAT WAJIB: Bahasa Melayu Malaysia natural, bukan Indonesia. PRODUCT LOCK: kekalkan reka bentuk, logo, tulisan, warna, bentuk, corak dan saiz fizikal relatif kepada model mengikut gambar rujukan. Jangan reka spesifikasi, testimoni atau diskaun. Pastikan semua overlay dalam center 70% (margin 15%), ejaan tepat. Jika gambar belum diberikan, minta pengguna lampirkan gambar rujukan pada aplikasi AI sasaran.\n\n";
+ const tasks={
+ poster:"Hasilkan penerangan produk yang padat dan konsep poster premium 3:4. Berikan nama produk, 3 USP yang disahkan, sasaran, headline dan susun atur visual; jana poster hanya jika alat imej tersedia.",
+ video:"Hasilkan SATU prompt NEXABOT/Google Flow ringkas: video 10s, 9:16, ultra-realistic 4K, tepat 5 scene: S1 Hook 0–2s; S2 Masalah 2–4s; S3 Penyelesaian 4–6s; S4 Demo 6–8s; S5 CTA 8–10s. Setiap scene dengan aksi, kamera, overlay dan dialog BM apabila sesuai. Gunakan hook padu, CTA natural, pergerakan realistik, tiada storyboard intro. Jangan ubah fizikal produk.",
+ storyboard:"Hasilkan storyboard poster 3:4 premium 5 scene untuk video 10s: 1 Hook, 2 Masalah, 3 Penyelesaian, 4 Demo, 5 CTA. Bagi setiap panel sertakan timestamp, visual, kamera dan dialog BM. Pastikan perkadaran produk dan tipografi jelas.",
+ thumbnail:"Hasilkan satu konsep thumbnail 3:4 dengan hook 4–8 perkataan yang relevan, visual produk jelas, tipografi pop-up premium dan teks dalam kawasan selamat. Jana gambar hanya jika alat imej tersedia.",
+ caption:"Tulis satu ayat posting TikTok Shop Bahasa Melayu Malaysia dengan hook kuat, 2–3 ciri yang disahkan, CTA lembut yang natural, dan 4–6 hashtag relevan. Jangan reka claim atau harga."
+ };
+ el("result").value="RDO POWER STUDIO — "+names[mode]+"\n\n"+common+tasks[mode];el("feedback").textContent="Prompt siap. Salin untuk digunakan dalam aplikasi AI pilihan.";
+});
+el("copy").addEventListener("click",async()=>{
+ const value=el("result").value;if(!value){el("feedback").textContent="Jana prompt dahulu.";return;}
+ try{await navigator.clipboard.writeText(value);el("feedback").textContent="Prompt berjaya disalin.";}catch(e){el("result").focus();el("result").select();el("feedback").textContent="Pilih teks dan salin secara manual.";}
+});
+})();
+</script>
+</body></html>
