@@ -47,7 +47,7 @@ const audienceLabels=["Wanita","Lelaki","Remaja","Pelajar sekolah","Pelajar univ
 const chosenAudience=new Set();
 const audienceChecks=$("audienceChecks");
 audienceLabels.forEach(label=>{const b=document.createElement("button");b.type="button";b.setAttribute("aria-pressed","false");b.className="btn alt";b.style.cssText="font-size:12px;padding:8px;white-space:normal;text-align:center";b.textContent=label;
- b.addEventListener("click",()=>{if(chosenAudience.has(label))chosenAudience.delete(label);else chosenAudience.add(label);b.setAttribute("aria-pressed",String(chosenAudience.has(label)));b.style.borderColor=chosenAudience.has(label)?"#f4cb75":"#9e7735";syncAudience();});audienceChecks.appendChild(b);});
+ b.addEventListener("click",()=>{if(chosenAudience.has(label))chosenAudience.delete(label);else chosenAudience.add(label);b.setAttribute("aria-pressed",String(chosenAudience.has(label)));b.style.borderColor=chosenAudience.has(label)?"#f4cb75":"#9e7735";syncAudience();$("audienceOptions").hidden=true;$("audienceToggle").setAttribute("aria-expanded","false");});audienceChecks.appendChild(b);});
 let selectedAudienceText="";
 function syncAudience(){const input=$("audience");const current=input.value.trim();const custom=current===selectedAudienceText?"":current.split(",").map(x=>x.trim()).filter(x=>x&&!audienceLabels.includes(x)).join(", ");selectedAudienceText=[...chosenAudience,...(custom?custom.split(",").map(x=>x.trim()).filter(Boolean):[])].join(", ");input.value=selectedAudienceText;}
 $("audienceToggle").addEventListener("click",()=>{const panel=$("audienceOptions");panel.hidden=!panel.hidden;$("audienceToggle").setAttribute("aria-expanded",String(!panel.hidden));});
