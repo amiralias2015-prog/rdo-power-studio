@@ -54,6 +54,7 @@ function syncAudience(){const input=$("audience");const current=input.value.trim
 $("audienceToggle").addEventListener("click",()=>{const panel=$("audienceOptions");panel.hidden=!panel.hidden;$("audienceToggle").setAttribute("aria-expanded",String(!panel.hidden));});
 $("audienceClear").addEventListener("click",()=>{chosenAudience.clear();selectedAudienceText="";$("audience").value="";audienceChecks.querySelectorAll("button").forEach(b=>{b.setAttribute("aria-pressed","false");b.style.borderColor="#9e7735";});});
 
+const productImageInput=$("productImages"),analyzerImageInput=$("analyzerImages");
 function analyzerText(){
  const p=$("product").value.trim()||"[masukkan nama produk]",d=$("details").value.trim(),files=productImageInput.files.length?productImageInput.files:$("analyzerImages").files;
  return "TUGAS: ANALISIS CIRI SEBENAR PRODUK UNTUK RDO POWER STUDIO\\n"
@@ -148,7 +149,7 @@ const sceneFields=$("sceneFields");
 sceneConfig.forEach(cfg=>{const wrap=document.createElement("div");wrap.className="sceneRow";const label=document.createElement("label");label.htmlFor=cfg.id;label.textContent=cfg.name;const select=document.createElement("select");select.id=cfg.id;cfg.ideas.forEach((v,i)=>{const opt=document.createElement("option");opt.value=i?"":"";opt.textContent=v;if(i)opt.value=v;select.appendChild(opt);});const custom=document.createElement("input");custom.id=cfg.id+"Custom";custom.placeholder="Atau taip arahan sendiri (pilihan)";custom.setAttribute("aria-label","Arahan sendiri bagi "+cfg.name);wrap.append(label,select,custom);sceneFields.appendChild(wrap);});
 function sceneInstructions(){return sceneConfig.map(cfg=>{const typed=$(cfg.id+"Custom").value.trim();const v=typed||$(cfg.id).value;return cfg.name+": "+(v||"Cipta ikut produk dan ciri yang benar-benar disahkan.");}).join("\\n");}
 
-const productImageInput=$("productImages"),analyzerImageInput=$("analyzerImages");
+
 function updateImagePreview(){const files=Array.from(productImageInput.files);const preview=$("productPreviews");preview.replaceChildren();if(files.length>5){productImageInput.value="";$("feedback").textContent="Maksimum 5 gambar produk.";return;}files.forEach(file=>{const img=document.createElement("img");img.alt=file.name;img.loading="lazy";const url=URL.createObjectURL(file);img.src=url;img.addEventListener("load",()=>URL.revokeObjectURL(url),{once:true});preview.appendChild(img);});$("feedback").textContent=files.length?files.length+" gambar produk dipilih. Lampirkan gambar asal pada aplikasi AI selepas salin prompt.":"";if($("analyzerPrompt"))$("analyzerPrompt").value=analyzerText();}
 productImageInput.addEventListener("change",updateImagePreview);
 const faceImageInput=$("faceImage");
