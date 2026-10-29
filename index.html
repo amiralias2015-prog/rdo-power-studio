@@ -120,7 +120,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
  .cards .mode{font-size:15px;line-height:1.4}
  #feedback,#qualityText,#spellingText,#claimSafetyText{font-size:14px;line-height:1.5}
 }
-@media(max-width:767px){#variantsItems button{display:block;width:100%;margin:8px 0 0!important;font-size:15px;min-height:46px}}</style></head><body>
+@media(max-width:767px){#variantsItems button{display:block;width:100%;margin:8px 0 0!important;font-size:15px;min-height:46px}}.v32clips{display:grid;gap:12px;margin:12px 0}.v32clip{border:1px solid #9d7e45;border-radius:12px;padding:12px;min-width:0}.v32clip strong{display:block;margin-bottom:8px}.v32clip textarea{width:100%;min-height:135px;font-size:14px}.v32clip button{margin-top:8px;margin-right:8px;min-height:44px}.v3outitem>textarea[hidden]{display:none!important}@media(max-width:767px){.v32clip button{width:100%;margin-right:0}} </style></head><body>
 <header><nav><div class="brand"><b>RDO</b> POWER STUDIO <span style="color:#9c875f">V2.5</span></div><div><a href="#fungsi">Fungsi</a><a href="#studio">Studio</a><a href="#hubungi">Hubungi</a></div></nav></header>
 <main><section class="hero"><div><div class="eyebrow">✦ LUXURY × FUTURISTIC · MALAYSIA</div><h1>Idea kreatif.<br>Prompt lebih padu.</h1><p class="muted">Studio pembina prompt untuk TikTok Shop Malaysia. Pilih fungsi, tetapkan gaya video dan hasilkan arahan yang kemas untuk ChatGPT, NEXABOT atau Google Flow.</p><a class="btn" href="#studio">Mula Cipta Prompt</a></div><div class="hero-card glass"><div class="hero-logo">RDO</div><div class="stats"><div class="stat"><b>05</b><small>Fungsi utama</small></div><div class="stat"><b>13</b><small>Gaya video</small></div><div class="stat"><b>10s</b><small>Video 5 scene</small></div><div class="stat"><b>4K</b><small>Prompt sinematik</small></div></div></div></section>
 <section id="fungsi"><h2>Creative tools</h2><p class="muted">Pilih satu fungsi untuk mulakan.</p><div class="cards" id="modes"><button class="mode" type="button" data-mode="poster" aria-pressed="true"><span class="glyph">✦</span><strong>Description Produk</strong><small>Penerangan dan poster 3:4</small></button><button class="mode" type="button" data-mode="video" aria-pressed="false"><span class="glyph">▶</span><strong>Video 10 Saat</strong><small>Prompt NEXABOT 5 scene</small></button><button class="mode" type="button" data-mode="storyboard" aria-pressed="false"><span class="glyph">▦</span><strong>Storyboard</strong><small>Visual 5 scene</small></button><button class="mode" type="button" data-mode="thumbnail" aria-pressed="false"><span class="glyph">◈</span><strong>Thumbnail</strong><small>Cover TikTok 3:4</small></button><button class="mode" type="button" data-mode="caption" aria-pressed="false"><span class="glyph">✎</span><strong>Ayat Posting</strong><small>Caption dan hashtag</small></button></div></section>
@@ -391,6 +391,48 @@ function v3Thumbnail(){
  const bg=$("customLocation").value.trim()||$("backgroundStyle").selectedOptions[0].textContent;
  return ["THUMBNAIL TIKTOK SHOP 3:4 | "+p,"Create one premium photorealistic 4K 3:4 vertical thumbnail, not a collage.","Use uploaded product reference as the exact visual source. PRODUCT LOCK: retain original shape, physical size, proportions, logo, label spelling, colors and accessories.","Background: "+bg+". Strong appealing commercial lighting, clear product visibility.","Main headline in natural Bahasa Melayu Malaysia: "+hook,"Bold pop-up typography, high contrast yellow/white with dark outline, safe area center 70%, 15% margins. Do not crop letters.","Only use verified product details: "+(d||"Do not invent specifications or benefits."),"No watermark, no fake offers. Attach reference photo manually to image platform."].join("\n");
 }
+
+function clipStoryboard(index,total){
+ const product=$("product").value.trim(),bg=$("customLocation").value.trim()||$("backgroundStyle").selectedOptions[0].textContent;
+ const plots=[
+ ["Hook: perkenalkan "+product,"Masalah berkaitan penggunaan produk","Penyelesaian: tunjuk produk","Demo awal ikut gambar","Transisi ke klip seterusnya"],
+ ["Sambung aksi klip pertama","Demo penggunaan berikutnya","Close-up ciri disahkan","Tunjuk langkah lanjut","Transisi natural"],
+ ["Sambung aksi terakhir","Tunjuk hasil sebenar","Detail bentuk dan label","Hero shot produk","CTA lembut: "+($("cta").value.trim()||"Jom tengok detail produk!")]];
+ const scenes=total===2&&index===1?plots[2]:plots[index];
+ return ["CIPTA SATU IMEJ STORYBOARD 3:4 untuk KLIP "+(index+1)+"/"+total+".","Video klip ini 10 saat, 9:16, 4K, lima panel bernombor.","Produk: "+product+". Lokasi: "+bg+". Watak: "+$("modelChoice").selectedOptions[0].textContent+".",...scenes.map((x,i)=>"Scene "+(i+1)+" ("+(i*2)+"-"+((i+1)*2)+"s): Visual: "+x+"; Camera: "+["push-in","medium shot","macro","tracking","hero"][i]+"; Dialog BM Malaysia ringkas."),"Poster storyboard premium, panel jelas dan tulisan mudah dibaca. PRODUCT LOCK kekalkan bentuk, saiz, logo, warna dan label tepat seperti gambar. CHARACTER LOCK dan CONTINUITY LOCK kekalkan model/pakaian/lokasi antara klip. Jangan reka spesifikasi. Upload gambar produk asal di ChatGPT."].join("\n");
+}
+function copyStoryboardAndChatGPT(prompt){
+ const tab=window.open("https://chatgpt.com/","_blank","noopener");
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(()=>{$("feedback").textContent="Storyboard disalin. Tampal di ChatGPT dan upload gambar produk.";}).catch(()=>{$("feedback").textContent="Salinan automatik gagal. Pilih dan salin teks storyboard secara manual.";});}
+ else $("feedback").textContent="Buka ChatGPT dan tampal storyboard bersama gambar produk.";
+ if(!tab)$("feedback").textContent="Jika ChatGPT tidak terbuka, benarkan pop-up. Salin prompt storyboard dan upload gambar.";
+}
+function addClipCards(videoText,total){
+ if(total<=1)return;
+ const videoTarget=$("v3OutputItems").children[1],storyTarget=$("v3OutputItems").children[2];
+ const clips=videoText.split(/--- KLIP \d+ \/ \d+ ---/).map(x=>x.trim()).filter(Boolean);
+ const videoWrap=document.createElement("div"),storyWrap=document.createElement("div");
+ videoWrap.className="v32clips";storyWrap.className="v32clips";
+ for(let i=0;i<total;i++){
+  const videoBlock=document.createElement("div");videoBlock.className="v32clip";
+  const title=document.createElement("strong");title.textContent="Klip "+(i+1)+"/"+total+" — 10 saat";
+  const ta=document.createElement("textarea");ta.readOnly=true;ta.value=clips[i]||"";
+  const copy=document.createElement("button");copy.type="button";copy.className="btn alt";copy.textContent="📋 Salin Prompt Klip "+(i+1);
+  copy.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(ta.value);$("feedback").textContent="Prompt Klip "+(i+1)+" disalin.";}catch(e){ta.focus();ta.select();document.execCommand("copy");}});
+  videoBlock.append(title,ta,copy);videoWrap.append(videoBlock);
+  const storyBlock=document.createElement("div");storyBlock.className="v32clip";
+  const storyText=clipStoryboard(i,total),label=document.createElement("strong");label.textContent="Storyboard Klip "+(i+1)+"/"+total;
+  const field=document.createElement("textarea");field.readOnly=true;field.value=storyText;
+  const storyCopy=document.createElement("button");storyCopy.type="button";storyCopy.className="btn alt";storyCopy.textContent="📋 Salin Storyboard "+(i+1);
+  storyCopy.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(field.value);}catch(e){field.focus();field.select();document.execCommand("copy");}});
+  const open=document.createElement("button");open.type="button";open.className="btn alt";open.textContent="🤖 Salin + Buka ChatGPT";
+  open.addEventListener("click",()=>copyStoryboardAndChatGPT(field.value));
+  storyBlock.append(label,field,storyCopy,open);storyWrap.append(storyBlock);
+ }
+ videoTarget.append(videoWrap);storyTarget.append(storyWrap);
+ const videoMain=videoTarget.querySelector(":scope > textarea");if(videoMain)videoMain.hidden=true;
+ const storyMain=storyTarget.querySelector(":scope > textarea");if(storyMain)storyMain.hidden=true;
+}
 function v3Set(){
  const warnings=[];
  if(!$("productImages").files.length)warnings.push("Gambar belum diupload. Lampirkan foto asal dalam AI.");
@@ -410,6 +452,7 @@ function v3Set(){
  v3CopyCard("Storyboard 5 Scene",storyboard);
  v3CopyCard("Prompt Thumbnail 3:4",thumbnail);
  v3CopyCard("Ayat Posting",caption);
+ addClipCards(video,Number($("videoDuration").value)/10);
  v31Tabs();$("v3Output").hidden=false;$("feedback").textContent="✓ Semua 5 fungsi siap! Salin hasil yang diperlukan.";
  $("v3Output").scrollIntoView({behavior:"smooth",block:"start"});
  }catch(e){$("feedback").textContent="Tidak dapat jana set VTT: "+e.message;}
