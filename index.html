@@ -287,11 +287,29 @@ function v31Tabs(){const bar=$("v31Tabs");bar.replaceChildren();const names=["De
 function v31Regenerate(index,area){v31Generation++;const prior=v3Variant;v3Variant=v31Generation%3;const oldHook=$("hook").value;let value=area.value;
 try{if(index===0)value=v3Description()+"\nSudut kreatif alternatif: "+freshHooks()[v3Variant];else if(index===1){const oldMode=mode;const oldRatio=$("aspectRatio").value;const oldDuration=$("videoDuration").value;try{mode="video";$("aspectRatio").value="9:16";$("videoDuration").value="10";$("hook").value=freshHooks()[v3Variant];value=$("promptPlatform").value==="nexabot"?buildNexabotPrompt():value.replace(/Hook: [^\n]+/,"Hook: "+$("hook").value);}finally{mode=oldMode;$("aspectRatio").value=oldRatio;$("videoDuration").value=oldDuration;}}else if(index===2)value=v3Storyboard();else if(index===3)value=v3Thumbnail();else value=buildCaption();area.value=value;$("feedback").textContent="Versi baharu "+["Description","Video","Storyboard","Thumbnail","Posting"][index]+" siap."; }finally{v3Variant=prior;$("hook").value=oldHook;}}
 function v3CopyCard(title,value){
- const card=document.createElement("div");card.className="v3outitem";const h=document.createElement("strong");h.textContent=title;
+ const card=document.createElement("div");card.className="v3outitem";
+ const h=document.createElement("strong");h.textContent=title;
  const area=document.createElement("textarea");area.readOnly=true;area.value=value;
- const btn=document.createElement("button");btn.className="btn alt";btn.type="button";btn.textContent="Salin "+title;
- btn.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(area.value);btn.textContent="✓ Disalin";}catch(e){area.select();try{document.execCommand("copy");btn.textContent="✓ Disalin";}catch(_){btn.textContent="Pilih teks untuk salin";}}});
- const idx=$("v3OutputItems").children.length;const regen=document.createElement("button");regen.className="btn alt";regen.type="button";regen.textContent="↻ Jana Semula";regen.addEventListener("click",()=>v31Regenerate(idx,area));card.append(h,area,btn,regen);$("v3OutputItems").append(card);
+ const idx=$("v3OutputItems").children.length;
+ const copy=document.createElement("button");copy.className="btn alt";copy.type="button";copy.textContent="📋 Salin";
+ copy.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(area.value);copy.textContent="✓ Disalin";}catch(e){area.focus();area.select();const ok=document.execCommand("copy");copy.textContent=ok?"✓ Disalin":"Salin teks secara manual";}});
+ const regen=document.createElement("button");regen.className="btn alt";regen.type="button";regen.textContent="↻ Jana Semula";regen.addEventListener("click",()=>v31Regenerate(idx,area));
+ card.append(h,area,copy);
+ if([0,2,3].includes(idx)){
+  const open=document.createElement("button");open.className="btn alt";open.type="button";open.textContent="🤖 Salin + Buka ChatGPT";
+  open.addEventListener("click",()=>{
+   // Open synchronously on user click to reduce popup blocking.
+   const tab=window.open("https://chatgpt.com/","_blank","noopener");
+   const prompt=area.value;
+   const fallback=()=>{area.focus();area.select();try{document.execCommand("copy");}catch(e){}};
+   if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(prompt).then(()=>{$("feedback").textContent="Prompt disalin. Tampal di ChatGPT dan upload gambar produk."}).catch(()=>{fallback();$("feedback").textContent="Sila salin prompt secara manual dan upload gambar di ChatGPT.";});
+   }else{fallback();$("feedback").textContent="Prompt dipilih untuk disalin. Tampal di ChatGPT bersama gambar rujukan.";}
+   if(!tab)$("feedback").textContent="Jika ChatGPT tidak terbuka, benarkan pop-up atau buka chatgpt.com. Salin prompt dan lampirkan gambar produk.";
+  });
+  card.append(open);
+ }
+ card.append(regen);$("v3OutputItems").append(card);
 }
 function v3Storyboard(){
  const p=$("product").value.trim(),d=$("details").value.trim(),scenes=sceneConfig;
