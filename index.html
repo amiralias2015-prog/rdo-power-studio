@@ -347,6 +347,17 @@ function v31Regenerate(index,area){
  }catch(e){$("feedback").textContent="Jana semula gagal: "+e.message;}
  finally{mode=oldMode;$("hook").value=oldHook;$("aspectRatio").value=oldRatio;$("result").value=oldResult;v3Variant=oldVariant;}
 }
+function openGoogleFlowWithPrompt(prompt,area){
+ window.open("https://labs.google/fx/tools/flow","_blank","noopener");
+ const fallback=()=>{area.focus();area.select();try{document.execCommand("copy");}catch(e){}};
+ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(prompt).then(()=>{$("feedback").textContent="Prompt disalin! Tampal di Google Flow, upload gambar rujukan dan jana video.";}).catch(()=>{fallback();$("feedback").textContent="Salin prompt yang dipilih dan tampal di Google Flow bersama gambar rujukan.";});
+ else{fallback();$("feedback").textContent="Salin prompt dan tampal di Google Flow bersama gambar produk.";}
+}
+function googleFlowButton(area){
+ const open=document.createElement("button");open.className="btn alt";open.type="button";open.textContent="🎬 Salin + Buka Google Flow";
+ open.addEventListener("click",()=>openGoogleFlowWithPrompt(area.value,area));
+ return open;
+}
 function v3CopyCard(title,value){
  const card=document.createElement("div");card.className="v3outitem";
  const h=document.createElement("strong");h.textContent=title;
@@ -370,6 +381,7 @@ function v3CopyCard(title,value){
   });
   card.append(open);
  }
+ if(idx===1)card.append(googleFlowButton(area));
  card.append(regen);$("v3OutputItems").append(card);
 }
 function v3Storyboard(){
@@ -419,7 +431,7 @@ function addClipCards(videoText,total){
   const ta=document.createElement("textarea");ta.readOnly=true;ta.value=clips[i]||"";
   const copy=document.createElement("button");copy.type="button";copy.className="btn alt";copy.textContent="📋 Salin Prompt Klip "+(i+1);
   copy.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(ta.value);$("feedback").textContent="Prompt Klip "+(i+1)+" disalin.";}catch(e){ta.focus();ta.select();document.execCommand("copy");}});
-  videoBlock.append(title,ta,copy);videoWrap.append(videoBlock);
+  videoBlock.append(title,ta,copy,googleFlowButton(ta));videoWrap.append(videoBlock);
   const storyBlock=document.createElement("div");storyBlock.className="v32clip";
   const storyText=clipStoryboard(i,total),label=document.createElement("strong");label.textContent="Storyboard Klip "+(i+1)+"/"+total;
   const field=document.createElement("textarea");field.readOnly=true;field.value=storyText;
