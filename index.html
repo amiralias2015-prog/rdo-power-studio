@@ -25,7 +25,7 @@ footer{border-top:1px solid #493c2a;text-align:center;padding:24px;color:var(--m
 <label for="details">Ciri sebenar produk / penerangan gambar rujukan</label><textarea id="details" placeholder="Contoh: Warna emas, motif Love, bentuk dan saiz mengikut rujukan"></textarea>
 <div class="fields"><div><label for="style">Gaya video (13 pilihan)</label><select id="style"><option value="1" >1. HAND POV</option><option value="2" >2. MODEL TUNJUK BARANG</option><option value="3" >3. MODEL BERCAKAP</option><option value="4" >4. VOICE-OVER REVIEW</option><option value="5" >5. CINEMATIC PREMIUM</option><option value="6" >6. DEMO PENGGUNAAN</option><option value="7" >7. UNBOXING STYLE</option><option value="8" >8. LIFESTYLE UGC</option><option value="9" >9. PROBLEM → SOLUTION</option><option value="10" >10. ASMR PRODUCT</option><option value="11" >11. TRY-ON / STYLING</option><option value="12" >12. FAST CUT TRENDY</option><option value="13" selected>13. AUTO STYLE</option></select></div><div><label for="delivery">Gaya penyampaian</label><select id="delivery"><option>UGC Natural</option><option>Premium Cinematic</option><option>Sempoi Gen-Z</option><option>Soft Selling</option></select></div></div>
 <div class="fields"><div><label for="hook">Hook (pilihan)</label><input id="hook" placeholder="Auto ikut produk jika kosong"></div><div><label for="cta">CTA (pilihan)</label><input id="cta" placeholder="Auto ikut produk jika kosong"></div></div>
-<div class="hookbox" style="margin-top:18px;padding:17px;border:1px solid #96743a;border-radius:16px;background:linear-gradient(120deg,#332513,#17140f)"><h3 style="margin:0 0 5px;color:#ffde93">⚡ Auto Hook Generator</h3><p class="muted" style="font-size:13px;margin:0 0 12px">Jana 5 hook ikut produk dan pilih untuk isi ruangan Hook secara automatik.</p><button class="btn alt" type="button" id="hookGenerate">Jana 5 Hook</button><div id="hookChoices" style="display:grid;gap:8px;margin-top:12px" aria-live="polite"></div></div><div class="check"><input type="checkbox" id="lock" checked><label for="lock">🔒 <strong>Product Lock</strong><div class="muted" style="font-size:12px;font-weight:400">Kekalkan reka bentuk dan saiz relatif produk seperti rujukan</div></label></div>
+<div class="hookbox" style="margin-top:18px;padding:17px;border:1px solid #96743a;border-radius:16px;background:linear-gradient(120deg,#332513,#17140f)"><h3 style="margin:0 0 5px;color:#ffde93">⚡ Auto Hook Generator</h3><p class="muted" style="font-size:13px;margin:0 0 12px">Jana 5 hook ikut produk dan pilih untuk isi ruangan Hook secara automatik.</p><button class="btn alt" type="button" id="hookGenerate">Jana 5 Hook</button><div id="hookChoices" style="display:grid;gap:8px;margin-top:12px" aria-live="polite"></div></div><div class="hookbox" style="margin-top:14px;padding:17px;border:1px solid #96743a;border-radius:16px;background:linear-gradient(120deg,#332513,#17140f)"><h3 style="margin:0 0 5px;color:#ffde93">✨ Auto CTA Generator</h3><p class="muted" style="font-size:13px;margin:0 0 12px">Jana 6 CTA soft selling ikut produk. Klik satu untuk masukkan ke ruangan CTA.</p><button class="btn alt" type="button" id="ctaGenerate">Jana 6 CTA</button><div id="ctaChoices" style="display:grid;gap:8px;margin-top:12px" aria-live="polite"></div></div><div class="check"><input type="checkbox" id="lock" checked><label for="lock">🔒 <strong>Product Lock</strong><div class="muted" style="font-size:12px;font-weight:400">Kekalkan reka bentuk dan saiz relatif produk seperti rujukan</div></label></div>
 <div class="actions"><button class="btn" id="generate">✦ Jana Prompt</button><button class="btn alt" id="reset">Reset</button></div><p class="status" id="feedback" role="status"></p></div>
 <div class="glass panel"><h2>Prompt siap salin</h2><p class="muted">Terus gunakan dalam aplikasi AI pilihan.</p><label for="result">Hasil RDO Power Studio</label><textarea id="result" readonly placeholder="Prompt akan dipaparkan di sini selepas klik Jana Prompt."></textarea><div class="actions"><button class="btn" id="copy">⧉ Salin Prompt</button></div><p class="note">Website ini membina teks prompt, bukan menjana video atau imej secara langsung. Lampirkan gambar rujukan asal pada platform AI pilihan supaya produk lebih konsisten.</p></div></section></main>
 <footer id="hubungi">RDO POWER STUDIO · MALAYSIA<br>Sokongan: <a href="mailto:amiralias2015@gmail.com">amiralias2015@gmail.com</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="support.html">Support</a></footer>
@@ -57,6 +57,40 @@ function hookOptions(){
  $("feedback").textContent="5 hook siap. Klik satu untuk pilih.";
 }
 $("hookGenerate").addEventListener("click",hookOptions);
+
+function ctaOptions(){
+ const p=$("product").value.trim(),d=$("details").value.trim();
+ if(!p){$("feedback").textContent="Isi nama produk untuk jana CTA.";$("product").focus();return;}
+ const target=(p+" "+d).toLowerCase();
+ const fashion=/gelang|rantai|cincin|subang|jam|beg|handbag|baju|tudung|kasut/.test(target);
+ const food=/kopi|teh|makanan|minuman|snek|snack/.test(target);
+ const sample=fashion?[
+ "Suka gaya ni? Jom tengok "+p+"!",
+ "Berkenan dengan corak ni? Boleh tengok detail dia.",
+ "Nak padankan dengan outfit korang? Cuba tengok pilihan ni.",
+ "Kalau kena dengan taste korang, boleh check dulu.",
+ "Design ni menarik perhatian? Jom tengok dekat-dekat.",
+ "Yang suka aksesori macam ni, bolehlah tengok pilihan ni!"
+ ]:food?[
+ "Teringin nak cuba? Boleh tengok "+p+" ni.",
+ "Kalau kena selera korang, jom tengok dulu!",
+ "Nak tahu lagi pasal "+p+"? Tengok detail dia.",
+ "Yang suka pilihan macam ni, boleh check dulu.",
+ "Rasa menarik? Jom tengok maklumat produk.",
+ "Kalau curious, boleh explore pilihan ni!"
+ ]:[
+ "Nak tahu lagi pasal "+p+"? Jom tengok!",
+ "Kalau sesuai dengan keperluan korang, boleh check dulu.",
+ "Menarik kan? Tengok detail produk ni.",
+ "Nak tengok cara penggunaan? Jom explore.",
+ "Berkenan dengan fungsi dia? Boleh tengok lanjut.",
+ "Kalau rasa sesuai, tengok pilihan yang ada dulu!"
+ ];
+ const list=$("ctaChoices");list.replaceChildren();
+ sample.forEach((v,i)=>{const b=document.createElement("button");b.type="button";b.className="btn alt";b.style.cssText="width:100%;text-align:left;white-space:normal;font-size:13px;padding:11px 13px";b.textContent=(i+1)+". "+v;b.addEventListener("click",()=>{$("cta").value=v;$("feedback").textContent="CTA dipilih dan dimasukkan dalam borang.";});list.appendChild(b);});
+ $("feedback").textContent="6 CTA siap. Klik satu untuk pilih.";
+}
+$("ctaGenerate").addEventListener("click",ctaOptions);
 $("copy").addEventListener("click",async()=>{if(!$("result").value){$("feedback").textContent="Jana prompt dahulu.";return;}try{await navigator.clipboard.writeText($("result").value);$("feedback").textContent="Prompt berjaya disalin.";}catch(e){$("result").focus();$("result").select();$("feedback").textContent="Teks dipilih. Sila salin secara manual.";}});
 $("reset").addEventListener("click",()=>{for(const id of ["product","audience","details","hook","cta","result"])$(id).value="";$("style").value="13";$("delivery").selectedIndex=0;$("lock").checked=true;$("feedback").textContent="Borang dikosongkan.";});
 })();
