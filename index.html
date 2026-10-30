@@ -120,10 +120,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
  .cards .mode{font-size:15px;line-height:1.4}
  #feedback,#qualityText,#spellingText,#claimSafetyText{font-size:14px;line-height:1.5}
 }
-@media(max-width:767px){#variantsItems button{display:block;width:100%;margin:8px 0 0!important;font-size:15px;min-height:46px}}.v32clips{display:grid;gap:12px;margin:12px 0}.v32clip{border:1px solid #9d7e45;border-radius:12px;padding:12px;min-width:0}.v32clip strong{display:block;margin-bottom:8px}.v32clip textarea{width:100%;min-height:135px;font-size:14px}.v32clip button{margin-top:8px;margin-right:8px;min-height:44px}.v3outitem>textarea[hidden]{display:none!important}@media(max-width:767px){.v32clip button{width:100%;margin-right:0}} 
-/* Simple mobile-first landing view; advanced fields remain fully functional. */
-.hero{padding-top:22px!important;padding-bottom:12px!important;grid-template-columns:1fr!important}.hero h1{font-size:clamp(27px,5vw,44px)!important;line-height:1.12}.hero-card{display:none!important}#fungsi{margin:0;padding:0}#studio{scroll-margin-top:70px}.rdo-simple-duration{margin:14px 0;padding:13px;border:1px solid #8c6a31;border-radius:12px;background:#201b14}.rdo-simple-duration select{width:100%;min-height:46px}.rdo-simple-duration label{font-weight:800;font-size:15px}.rdo-advanced-body{padding-top:12px;display:grid;gap:12px}#rdoSimpleAdvanced{margin:12px 0}#rdoSimpleAdvanced>summary{cursor:pointer;font-size:15px;font-weight:750;color:#f3cb76}#studio .panel{min-width:0}#v3Quick{margin-top:12px}@media(max-width:767px){.hero .btn{width:100%;text-align:center}#v3MobileQuick{display:none!important}.hero .eyebrow{font-size:10px}.hero p{font-size:13px}#rdoSimpleAdvanced{padding:12px}}
-</style></head><body>
+@media(max-width:767px){#variantsItems button{display:block;width:100%;margin:8px 0 0!important;font-size:15px;min-height:46px}}.v32clips{display:grid;gap:12px;margin:12px 0}.v32clip{border:1px solid #9d7e45;border-radius:12px;padding:12px;min-width:0}.v32clip strong{display:block;margin-bottom:8px}.v32clip textarea{width:100%;min-height:135px;font-size:14px}.v32clip button{margin-top:8px;margin-right:8px;min-height:44px}.v3outitem>textarea[hidden]{display:none!important}@media(max-width:767px){.v32clip button{width:100%;margin-right:0}} </style></head><body>
 <header><nav><div class="brand"><b>RDO</b> POWER STUDIO <span style="color:#9c875f">V2.5</span></div><div><a href="#fungsi">Fungsi</a><a href="#studio">Studio</a><a href="#hubungi">Hubungi</a></div></nav></header>
 <main><section class="hero"><div><div class="eyebrow">✦ LUXURY × FUTURISTIC · MALAYSIA</div><h1>Idea kreatif.<br>Prompt lebih padu.</h1><p class="muted">Studio pembina prompt untuk TikTok Shop Malaysia. Pilih fungsi, tetapkan gaya video dan hasilkan arahan yang kemas untuk ChatGPT, NEXABOT atau Google Flow.</p><a class="btn" href="#studio">Mula Cipta Prompt</a></div><div class="hero-card glass"><div class="hero-logo">RDO</div><div class="stats"><div class="stat"><b>05</b><small>Fungsi utama</small></div><div class="stat"><b>13</b><small>Gaya video</small></div><div class="stat"><b>10s</b><small>Video 5 scene</small></div><div class="stat"><b>4K</b><small>Prompt sinematik</small></div></div></div></section>
 <section id="fungsi"><h2>Creative tools</h2><p class="muted">Pilih satu fungsi untuk mulakan.</p><div class="cards" id="modes"><button class="mode" type="button" data-mode="poster" aria-pressed="true"><span class="glyph">✦</span><strong>Description Produk</strong><small>Penerangan dan poster 3:4</small></button><button class="mode" type="button" data-mode="video" aria-pressed="false"><span class="glyph">▶</span><strong>Video 10 Saat</strong><small>Prompt NEXABOT 5 scene</small></button><button class="mode" type="button" data-mode="storyboard" aria-pressed="false"><span class="glyph">▦</span><strong>Storyboard</strong><small>Visual 5 scene</small></button><button class="mode" type="button" data-mode="thumbnail" aria-pressed="false"><span class="glyph">◈</span><strong>Thumbnail</strong><small>Cover TikTok 3:4</small></button><button class="mode" type="button" data-mode="caption" aria-pressed="false"><span class="glyph">✎</span><strong>Ayat Posting</strong><small>Caption dan hashtag</small></button></div></section>
@@ -584,36 +581,7 @@ function compactNexabot(value){
  return v;
 }
 $("optimizeNexabot").addEventListener("change",()=>{storeDraft();});
-
-function setupSimpleLayout(){
- const studio=$("studio"),panel=studio.querySelector(".panel"),photo=$("productImages").closest(".image-upload"),quick=$("v3Quick");
- const simpleDuration=document.createElement("div");simpleDuration.className="rdo-simple-duration";
- const durationLabel=document.createElement("label");durationLabel.htmlFor="videoDuration";durationLabel.textContent="③ Pilih durasi video";
- simpleDuration.append(durationLabel,$("videoDuration"));
- photo.after(simpleDuration);
- const box=document.createElement("details");box.id="rdoSimpleAdvanced";box.className="smartbox";
- const title=document.createElement("summary");title.textContent="⚙️ Tetapan Lanjutan — pilihan model, gaya, audio & Product Lock";
- const content=document.createElement("div");content.className="rdo-advanced-body";
- box.append(title,content);
- const first=photo.nextElementSibling===simpleDuration?simpleDuration.nextElementSibling:photo.nextElementSibling;
- let node=first;
- while(node&&node!==$("v31Preflight")){
-  const next=node.nextElementSibling;content.append(node);node=next;
- }
- quick.before(box);
- const top=[panel.querySelector("#functionTitle"),panel.querySelector("#functionHint"),panel.querySelector(".quickbar"),panel.querySelector("#modeStatus")];
- top.filter(Boolean).forEach(el=>content.prepend(el));
- const modesSection=document.getElementById("fungsi");if(modesSection)content.append(modesSection);
- box.addEventListener("toggle",()=>{if(box.open&&studio.dataset.studioMode!=="pro")setStudioMode("pro");});
- const original=$("v3Quick").querySelector("h3");if(original)original.textContent="🚀 1 PRODUK • 1 KLIK • 5 HASIL";
- const explain=$("v3Quick").querySelector("p");if(explain)explain.textContent="④ Tekan Jana Semua. Prompt video, storyboard, thumbnail dan posting disediakan sekali gus.";
- const productLabel=panel.querySelector('label[for="product"]');if(productLabel)productLabel.textContent="② Nama produk *";
- const photoLabel=photo.querySelector('label[for="productImages"]');if(photoLabel)photoLabel.textContent="① Upload gambar produk (sehingga 5)";
- const nav=document.querySelector('header nav a[href="#fungsi"]');if(nav)nav.textContent="Pilihan Lain";
-}
-
 loadDraft();updateCaptionMode();
-setupSimpleLayout();
 $("copy").addEventListener("click",async()=>{if(!$("result").value){$("feedback").textContent="Jana prompt dahulu.";return;}try{await navigator.clipboard.writeText($("result").value);$("feedback").textContent="Prompt berjaya disalin.";}catch(e){$("result").focus();$("result").select();$("feedback").textContent="Teks dipilih. Sila salin secara manual.";}});
 $("reset").addEventListener("click",()=>{for(const id of ["product","audience","details","hook","cta","result"])$(id).value="";$("style").value="14";$("backgroundStyle").value="0";$("customLocation").value="";$("videoDuration").value="10";$("characterLock").value="on";$("continuityLock").checked=true;$("captionStyle").selectedIndex=0;["modelChoice","audioChoice","fontChoice","motionChoice"].forEach(id=>$(id).selectedIndex=0);$("aspectRatio").value=defaultRatio();$("promptPlatform").value="nexabot";$("delivery").selectedIndex=0;$("lock").checked=true;$("feedback").textContent="Borang dikosongkan.";$("qualityText").textContent="Jana prompt untuk semakan.";$("stickyCopy").classList.remove("ready");productImageInput.value="";$("productPreviews").replaceChildren();faceImageInput.value="";$("facePreview").replaceChildren();localStorage.removeItem(draftKey);sceneConfig.forEach(c=>{$(c.id).selectedIndex=0;$(c.id+"Custom").value="";});$("promptLength").textContent="0 / 1,026 aksara";});
 })();
